@@ -1,78 +1,937 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>
-	Andre's Profile
-</title>
-<style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 50%;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andre Ottoni</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-td, th {
-  border: 2px solid black;
-  text-align: center;
-  padding: 8px;
-}
+    :root {
+      --bg:          #0b0b0f;
+      --bg-surface:  #13131a;
+      --bg-card:     #18181f;
+      --border:      #24242f;
+      --border-soft: #1e1e28;
+      --text:        #e2e2ec;
+      --text-muted:  #7a7a96;
+      --text-faint:  #44445a;
+      --blue:        #4f8ef7;
+      --blue-dim:    #3a6fd4;
+      --blue-glow:   rgba(79, 142, 247, 0.12);
+      --blue-soft:   rgba(79, 142, 247, 0.06);
+      --radius:      12px;
+      --radius-sm:   8px;
+    }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-</style>
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { color: #7aaff9; }
+
+    /* ─── Nav ──────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(11, 11, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ─── Layout helpers ───────────────────────────────────────── */
+    section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.75rem;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    p { color: var(--text-muted); line-height: 1.75; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border-soft);
+      margin: 0;
+    }
+
+    /* ─── Hero ─────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      max-width: 100%;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 70% 40%, rgba(79,142,247,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(79,142,247,0.04) 0%, transparent 60%);
+    }
+
+    .hero-inner {
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 7rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-name {
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 1.75rem;
+      line-height: 1.6;
+      max-width: 480px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .tag {
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.3rem 0.75rem;
+      border-radius: 99px;
+      background: var(--blue-soft);
+      border: 1px solid rgba(79,142,247,0.2);
+      color: var(--blue);
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      border: 1px solid var(--blue);
+    }
+    .btn-primary:hover { background: var(--blue-dim); color: #fff; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+
+    /* Photo placeholder */
+    .hero-photo {
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: var(--text-faint);
+      font-size: 0.8rem;
+    }
+
+    .hero-photo svg { opacity: 0.3; }
+
+    /* ─── About ─────────────────────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .about-story p + p { margin-top: 1rem; }
+
+    .about-facts {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .fact-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+    }
+
+    .fact-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .fact-value {
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ─── Work ──────────────────────────────────────────────────── */
+    .work-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .work-card {
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      transition: border-color 0.15s;
+    }
+
+    .work-card:hover { border-color: rgba(79,142,247,0.3); }
+
+    .work-card.current { border-left: 3px solid var(--blue); }
+
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      gap: 1rem;
+    }
+
+    .work-company {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .work-period {
+      font-size: 0.78rem;
+      color: var(--text-faint);
+      font-weight: 400;
+      white-space: nowrap;
+      margin-top: 0.1rem;
+    }
+
+    .work-role {
+      font-size: 0.85rem;
+      color: var(--blue);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .work-desc { font-size: 0.875rem; line-height: 1.65; }
+
+    .metrics-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .metric {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.65rem;
+      background: var(--blue-soft);
+      border: 1px solid rgba(79,142,247,0.15);
+      border-radius: 99px;
+      color: #9ab8fb;
+    }
+
+    /* ─── Building ──────────────────────────────────────────────── */
+    .building-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .build-card {
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      transition: border-color 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .build-card:hover { border-color: rgba(79,142,247,0.3); }
+
+    .build-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .build-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .build-desc { font-size: 0.85rem; line-height: 1.65; }
+
+    .build-status {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: auto;
+      color: var(--text-faint);
+    }
+
+    .build-status.active { color: #5dca86; }
+
+    /* ─── Life ──────────────────────────────────────────────────── */
+    .life-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .life-card {
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+    }
+
+    .life-card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .life-card p { font-size: 0.875rem; }
+
+    .life-card.family { grid-column: span 2; }
+
+    .family-inner {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .family-photo {
+      aspect-ratio: 4/3;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--text-faint);
+      font-size: 0.8rem;
+    }
+
+    .family-photo svg { opacity: 0.25; }
+
+    /* Sports images */
+    .sports-logos {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .sports-logo-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-soft);
+    }
+
+    .sports-logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sports-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+    }
+
+    .sports-list li {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .sports-list li::before {
+      content: '—';
+      color: var(--text-faint);
+    }
+
+    /* ─── Beliefs ───────────────────────────────────────────────── */
+    .beliefs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .belief-card {
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      border-left: 3px solid var(--blue);
+    }
+
+    .belief-topic {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.5rem;
+    }
+
+    .belief-text {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ─── Contact ───────────────────────────────────────────────── */
+    #contact {
+      text-align: center;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    /* ─── Footer ────────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-faint);
+      font-size: 0.78rem;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    /* ─── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-photo { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .life-grid { grid-template-columns: 1fr; }
+      .life-card.family { grid-column: span 1; }
+      .family-inner { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
 </head>
 
 <body>
-	<h1>Andre Ottoni</h1>
 
-	<h2>
-		About me 
-	</h2>
-	<p>
-	This is Andre, from Brazil, but I currently live in Austin-TX, USA. I'm 29 years old, I work at Indeed as a Product Lead for International Markets, my hobbies include playing sports (mainly soccer), and hanging out with Henry, my 2 year old son. Below is a picture of Henry and I, on my first father's day, in August 2016.
-	</p>
-	<img src="21Henry.jpg" alt="controlc+controlv" height="500" width="300">
+  <!-- Nav -->
+  <nav>
+    <span class="nav-logo">Andre Ottoni</span>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#building">Building</a></li>
+      <li><a href="#life">Life</a></li>
+      <li><a href="#beliefs">Beliefs</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-	<br></br>
-	<br></br>
+  <!-- Hero -->
+  <div id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Central Florida · Originally from São Paulo, Brazil</div>
+        <h1 class="hero-name">Andre Ottoni</h1>
+        <p class="hero-tagline">
+          Staff PM building AI products. Father of three. Immigrant who came to the US on a soccer scholarship and never left.
+        </p>
+        <div class="hero-tags">
+          <span class="tag">Product Management</span>
+          <span class="tag">AI / LLMs</span>
+          <span class="tag">Soccer</span>
+          <span class="tag">Father</span>
+          <span class="tag">Finance for Kids</span>
+          <span class="tag">Boglehead</span>
+        </div>
+        <div class="hero-cta">
+          <a href="mailto:deottoni@gmail.com" class="btn btn-primary">Get in touch</a>
+          <a href="https://github.com/deottoni" target="_blank" class="btn btn-ghost">GitHub</a>
+          <a href="https://linkedin.com/in/andreottoni" target="_blank" class="btn btn-ghost">LinkedIn</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+  </div>
 
-	<h2>Favorite Teams</h2>
-	<p>
-		<ul>
-			<li>Click <a href="https://www.corinthians.com.br/" target="_blank">here</a> to visit "Corinthians", my favorite soccer club, from São Paulo, BR.</li>
-			<img src="corinthians.jpg" alt="corinthians">
-			<br></br>
-			<br></br>
-			<li>Click <a href="https://www.49ers.com/" target="_blank">here</a> to visit "San Francisco 49ers", my favorite American Football team, from San Francisco, CA, USA.</li>
-			<img src="49.jpg" alt="49ers">
-		</ul>
-	</p>
-	<br></br>
-	<br></br>
-	
-	<h2>Favorites </h2>
-	<table>
-		<tr>
-			<th>Hobby</th>
-			<th>Favorite Artist</th>
-			<th>Favorite Movie</th>
-		</tr>
-		<tr>
-			<td>Play Soccer</td>
-			<td>Blink 182</td>
-			<td>Blind Side</td>
-		</tr>
-	</table>
+  <hr class="divider" />
 
-	<br></br>
-	<br></br>
-	
-	<h2>Contact</h2>
-		<ul>
-			<li><strong>Email:</strong> <a href="mailto:deottoni@gmail.com" target="_blank"> deottoni@gmail.com</a></li>
-			<li><strong>Github:</strong> <a href="https://github.com/deottoni/" target="_blank">github.com/deottoni</a></li>
-		</ul>
+  <!-- About -->
+  <section id="about">
+    <div class="section-label">Origin</div>
+    <h2>The short version</h2>
+    <div class="about-grid">
+      <div class="about-story">
+        <p>
+          Born and raised just outside São Paulo. Grew up playing soccer — not as a hobby, it was life. Got to professional level by my late teens. My father passed away in 2008. When a soccer scholarship to the US came through, I took it.
+        </p>
+        <p>
+          Came to the US in 2010. Played four years of college soccer at Milligan University in Tennessee. Graduated with a B.S. in Business Administration in 2015, started at Indeed, and spent the next decade building a career in product management.
+        </p>
+        <p>
+          Julia and I have lived across Georgia, Tennessee, Texas, Ireland, and Brazil before landing in Central Florida — an intentional choice to stay close to family back home. We have three kids: Henry (10), and twins Ben and Leo (5). Every move was a chapter. This one's the right one.
+        </p>
+      </div>
+      <div class="about-facts">
+        <div class="fact-row">
+          <span class="fact-label">Currently</span>
+          <span class="fact-value">Staff PM · Practice Better</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Location</span>
+          <span class="fact-value">Central Florida, USA</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Family</span>
+          <span class="fact-value">Julia (wife), Henry (10), Ben & Leo (5)</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Origin</span>
+          <span class="fact-value">São Paulo, Brazil → USA 2010</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Education</span>
+          <span class="fact-value">B.S. Business, Milligan University · NAIA Soccer</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-label">Languages</span>
+          <span class="fact-value">Portuguese (native), English</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Work -->
+  <section id="work">
+    <div class="section-label">Career</div>
+    <h2>Work</h2>
+    <div class="work-stack">
+
+      <div class="work-card current">
+        <div class="work-header">
+          <div>
+            <div class="work-company">Practice Better</div>
+            <div class="work-role">Staff Product Manager · AI Labs & Onboarding</div>
+          </div>
+          <div class="work-period">2024 – Present</div>
+        </div>
+        <p class="work-desc">
+          Leading AI Labs and Onboarding & Personalization. Building the AI layer on top of Practice Better's health coaching platform — from agentic features to onboarding redesigns that compress time-to-value.
+        </p>
+        <div class="metrics-row">
+          <span class="metric">AI agent launch</span>
+          <span class="metric">Onboarding redesign</span>
+          <span class="metric">AI Labs</span>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-header">
+          <div>
+            <div class="work-company">Housecall Pro</div>
+            <div class="work-role">Senior Product Manager II · AI Product Lead</div>
+          </div>
+          <div class="work-period">2021 – 2024</div>
+        </div>
+        <p class="work-desc">
+          AI product lead for a home services SaaS platform. Led AI agent development, intake standardization, A/B experimentation infrastructure, and a team of 2 direct + 4 dotted-line PMs.
+        </p>
+        <div class="metrics-row">
+          <span class="metric">+15pp lead conversion</span>
+          <span class="metric">+10pp call conversion</span>
+          <span class="metric">90%+ same-call activation</span>
+          <span class="metric">+40% A/B velocity</span>
+          <span class="metric">0 → thousands of paying customers</span>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-header">
+          <div>
+            <div class="work-company">Indeed</div>
+            <div class="work-role">Senior Product Manager · International, Global, University</div>
+          </div>
+          <div class="work-period">2015 – 2021</div>
+        </div>
+        <p class="work-desc">
+          ~8 years across international market expansion, global PM, and Indeed University — the internal program for onboarding new PM and engineering hires. Lived and worked across Austin, Dublin, São Paulo, and Seattle.
+        </p>
+        <div class="metrics-row">
+          <span class="metric">11 countries in 1 year</span>
+          <span class="metric">1 of 12 global University leads</span>
+          <span class="metric">International market expansion</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Building -->
+  <section id="building">
+    <div class="section-label">Side Work</div>
+    <h2>Building</h2>
+    <div class="building-grid">
+
+      <div class="build-card">
+        <div class="build-icon">💰</div>
+        <div class="build-name">Finance for Kids</div>
+        <p class="build-desc">
+          A curriculum for teaching kids how money works — starting with my son Henry. Earn before you spend. Save before you buy. Index funds beat stock-picking. Most schools skip this entirely.
+        </p>
+        <div class="build-status active">Active · Testing with Henry (10)</div>
+      </div>
+
+      <div class="build-card">
+        <div class="build-icon">🤖</div>
+        <div class="build-name">Claude Starter Framework</div>
+        <p class="build-desc">
+          A guided onboarding system for non-technical people to get started with Claude. Three phases, no jargon — from "what is this" to using AI for real daily work.
+        </p>
+        <div class="build-status active">Active · Built and functional</div>
+      </div>
+
+      <div class="build-card">
+        <div class="build-icon">🎯</div>
+        <div class="build-name">Better Hiring Workshop</div>
+        <p class="build-desc">
+          Side hustle with a friend: coaching Brazilian professionals on breaking into PM roles in the US market. Claude automation kit built in, content in Portuguese.
+        </p>
+        <div class="build-status active">Active · Workshop + automation kit</div>
+      </div>
+
+      <div class="build-card">
+        <div class="build-icon">👨‍👦</div>
+        <div class="build-name">Present Fatherhood</div>
+        <p class="build-desc">
+          Content brand in the making. The case for present dads. Practical tools, honest conversation, no sugar-coating. More present fathers = better outcomes. Not a theory — a personal hill to die on.
+        </p>
+        <div class="build-status">Incubating</div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Life -->
+  <section id="life">
+    <div class="section-label">Outside Work</div>
+    <h2>Life</h2>
+    <div class="life-grid">
+
+      <!-- Family -->
+      <div class="life-card family">
+        <div class="life-card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Family
+        </div>
+        <div class="family-inner">
+          <div>
+            <p>
+              Julia and I met back home in Brazil. She's been through every city, every country, every career pivot. Real partner in every sense.
+            </p>
+            <br />
+            <p>
+              Henry (10) is in academy soccer, learning about money, and already asking questions that make me think. Ben and Leo are 5 — twins, soccer 24/7, loud, a lot, in the best way.
+            </p>
+            <br />
+            <p style="font-style: italic; color: var(--text-faint); font-size: 0.85rem;">
+              "A present father is way more than a perfect dad." — Jon Bellion
+            </p>
+          </div>
+          <div class="family-photo">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <span>Family photo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soccer -->
+      <div class="life-card">
+        <div class="life-card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 000 20M2 12h20"/></svg>
+          Soccer
+        </div>
+        <p>
+          Played my whole life. Professional level in Brazil before coming to the US. Four years NAIA college soccer at Milligan. Still play 2–3x per week. Henry is in academy. The twins just started rec.
+        </p>
+        <div class="sports-logos">
+          <div class="sports-logo-wrap">
+            <img src="corinthians.jpg" alt="Corinthians" />
+          </div>
+        </div>
+        <p style="margin-top: 0.75rem; font-size: 0.82rem; color: var(--text-faint);">
+          Corinthians (São Paulo) — lifelong, non-negotiable.
+        </p>
+      </div>
+
+      <!-- Sports & Teams -->
+      <div class="life-card">
+        <div class="life-card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 010-5H6"/><path d="M18 9h1.5a2.5 2.5 0 000-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0012 0V2z"/></svg>
+          US Teams
+        </div>
+        <ul class="sports-list">
+          <li><strong style="color:var(--text)">NFL:</strong> 49ers (primary) · Falcons (Atlanta days)</li>
+          <li><strong style="color:var(--text)">NBA:</strong> Hawks (primary) · Heat</li>
+          <li><strong style="color:var(--text)">MLB:</strong> Braves</li>
+          <li><strong style="color:var(--text)">CFB:</strong> UGA · UT Austin (kids are Longhorns)</li>
+        </ul>
+        <div class="sports-logos" style="margin-top: 0.75rem;">
+          <div class="sports-logo-wrap">
+            <img src="49.jpg" alt="49ers" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Training -->
+      <div class="life-card">
+        <div class="life-card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Training
+        </div>
+        <p>
+          Garage gym, mornings, Monday through Friday. Compound strength first — Legs / Push / Full Body + Mobility / Pull / Legs. Soccer on top for conditioning. Mobility is training, not recovery.
+        </p>
+        <p style="margin-top: 0.75rem; font-size: 0.82rem; color: var(--text-faint);">
+          "Strength is a cheat code. It bleeds into everything else."
+        </p>
+      </div>
+
+      <!-- Travel -->
+      <div class="life-card">
+        <div class="life-card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+          Travel
+        </div>
+        <p>
+          When we lived in Dublin, Julia and I did 11 countries in a year — with Henry under 1 the whole time. Baby's passport was stamped before he could walk.
+        </p>
+        <p style="margin-top: 0.75rem; font-size: 0.82rem; color: var(--text-faint);">
+          Rule: food and local scene first. One photo at the famous thing, then find where locals eat. Tourist traps are a waste of time.
+        </p>
+      </div>
+
+      <!-- Finance -->
+      <div class="life-card">
+        <div class="life-card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          Money
+        </div>
+        <p>
+          Boglehead. Total market index funds. Max 401k and HSA. Brokerage on top. No stock picking, no complexity. Boring wins.
+        </p>
+        <p style="margin-top: 0.75rem; font-size: 0.82rem; color: var(--text-faint);">
+          Goal is freedom, not a number. Reduce what your lifestyle costs, build assets that compound.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Beliefs -->
+  <section id="beliefs">
+    <div class="section-label">Takes</div>
+    <h2>Things I'd argue about</h2>
+    <div class="beliefs-grid">
+
+      <div class="belief-card">
+        <div class="belief-topic">Fatherhood</div>
+        <p class="belief-text">Present fathers — even imperfect ones — change outcomes. Fatherless homes are one of the roots of crime, stress, and reduced options. More present dads = better society. Not complicated.</p>
+      </div>
+
+      <div class="belief-card">
+        <div class="belief-topic">Money education</div>
+        <p class="belief-text">If we taught kids how money works from age 8, we'd have far less debt and far more financially independent adults. Schools skip it entirely. That's a design failure, not an accident.</p>
+      </div>
+
+      <div class="belief-card">
+        <div class="belief-topic">Consistency</div>
+        <p class="belief-text">Intensity is exciting but unreliable. Consistency is boring but compounds. The person who shows up daily at 80% beats the person who shows up monthly at 110%. Every domain.</p>
+      </div>
+
+      <div class="belief-card">
+        <div class="belief-topic">AI in product</div>
+        <p class="belief-text">AI without revenue logic is theater. Escalation is a feature, not a failure. Evaluation is mandatory. Ship narrow, expand carefully. Most AI features fail the "why would someone pay for this" test.</p>
+      </div>
+
+      <div class="belief-card">
+        <div class="belief-topic">Accountability</div>
+        <p class="belief-text">Julia and I came here as immigrants and built a life from scratch. We didn't act like victims. Work hard, follow the rules, stay accountable. That's not just something I believe — it's how we actually got here.</p>
+      </div>
+
+      <div class="belief-card">
+        <div class="belief-topic">Strength</div>
+        <p class="belief-text">A strong body is a force multiplier — energy, confidence, resilience, discipline. It bleeds into parenting, work, relationships. Gym isn't vanity. It's maintenance on the machine that runs everything else.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="section-label">Say hello</div>
+    <h2>Get in touch</h2>
+    <p style="max-width: 480px; margin: 0 auto 0.5rem;">
+      PM conversations, AI product, building something in the parenting or finance for kids space, or just want to talk soccer — I'm around.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:deottoni@gmail.com" class="btn btn-primary">deottoni@gmail.com</a>
+      <a href="https://github.com/deottoni" target="_blank" class="btn btn-ghost">GitHub</a>
+      <a href="https://linkedin.com/in/andreottoni" target="_blank" class="btn btn-ghost">LinkedIn</a>
+    </div>
+  </section>
+
+  <footer>
+    Andre Ottoni · Central Florida · Built from scratch, like everything else.
+  </footer>
 
 </body>
 </html>
