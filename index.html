@@ -349,18 +349,31 @@
     /* ── Print ── */
     @media print {
       .topnav, .print-hint { display: none !important; }
-      main { padding-top: 1.5rem; }
+      .avatar { display: none !important; }
+      main { padding-top: 0.5rem; }
       body { font-size: 11px; }
+      .header { margin-bottom: 1.25rem; }
       .header-name { font-size: 1.25rem; }
-      .section-heading { font-size: 1rem; margin-bottom: 0.75rem; }
+      .section-heading { font-size: 1rem; margin-bottom: 0.6rem; padding-bottom: 0.3rem; }
       .about-text, .exp-bullets li, .project-desc, .edu-degree { font-size: 10px; }
       .exp-role-title, .exp-role-dates, .exp-company-tenure, .edu-school,
       .header-title, .skills-label, .tag { font-size: 10px; }
-      section { margin-bottom: 1.25rem; }
-      .exp-list { gap: 1.25rem; }
-      .avatar { width: 5.5rem; height: 5.5rem; }
-      footer { padding: 0.75rem 1rem 1rem; }
-      @page { margin: 1.5cm; size: A4; }
+      .about-text { line-height: 1.5; }
+      .exp-bullets li { line-height: 1.4; }
+      .exp-bullets { gap: 0.1rem; margin-bottom: 0.35rem; }
+      section { margin-bottom: 0.85rem; }
+      .exp-list { gap: 0.85rem; }
+      .exp-role-block + .exp-role-block { margin-top: 0.6rem; padding-top: 0.6rem; }
+      .exp-company-header { margin-bottom: 0.4rem; }
+      .exp-role-header { margin-bottom: 0.2rem; }
+      .tags { gap: 0.15rem; margin-top: 0.3rem; }
+      .tag { padding: 0.1rem 0.4rem; }
+      .project-list { gap: 0.5rem; }
+      .skills-group { margin-bottom: 0.35rem; }
+      .skills-label { margin-bottom: 0.25rem; }
+      .edu-list { gap: 0.35rem; }
+      footer { padding: 0.5rem 1rem 0.5rem; }
+      @page { margin: 1.2cm; size: A4; }
     }
 
     /* ── Mobile ── */
